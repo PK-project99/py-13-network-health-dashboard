@@ -29,6 +29,8 @@ xr-router-01,"1 day, 19:28:03",True,Loopback0,False,False
 xr-router-01,"1 day, 19:28:03",True,MgmtEth0/RP0/CPU0/0,False,False
 xr-router-01,"1 day, 19:28:03",True,Null0,False,False
 ```
+![alt text](image.png)
+![alt text](image-1.png)
 
 ## Concepts used
 - `napalm` — vendor-agnostic network device API (`get_facts`, `get_interfaces`)
