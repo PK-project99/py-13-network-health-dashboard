@@ -1,0 +1,2 @@
+hostname,ip,username,password,driver
+xr-router-01,sandbox-iosxr-1.cisco.com,puneet.work,ZiKeepp0FM4-4_N,iosxr_netconf

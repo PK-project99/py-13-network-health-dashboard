@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Health Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+        th { background-color: #333; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Network Health Dashboard</h1>
+    <table>
+        <tr>
+            <th>Hostname</th>
+            <th>Uptime</th>
+            <th>Recently Rebooted?</th>
+            <th>Interface</th>
+            <th>Is Down?</th>
+            <th>Flapped Recently?</th>
+        </tr>
+        {% for row in rows %}
+            {% if row['Is Down?'] %}
+                {% set row_color = 'red' %}
+            {% elif row['Flapped Recently?'] %}
+                {% set row_color = 'orange' %}
+            {% elif row['Recently Rebooted?'] %}
+                {% set row_color = 'yellow' %}
+            {% else %}
+                {% set row_color = 'lightgreen' %}
+            {% endif %}
+        <tr style="background-color: {{ row_color }}">
+            <td>{{ row.Hostname }}</td>
+            <td>{{ row.Uptime }}</td>
+            <td>{{ row['Recently Rebooted?'] }}</td>
+            <td>{{ row.Interface }}</td>
+            <td>{{ row['Is Down?'] }}</td>
+            <td>{{ row['Flapped Recently?'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
