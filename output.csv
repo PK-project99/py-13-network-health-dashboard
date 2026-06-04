@@ -1,6 +1,7 @@
 Hostname,Uptime,Recently Rebooted?,Interface,Flapped Recently?,Is Down?
-xr-router-01,"1 day, 19:28:03",True,GigabitEthernet0/0/0/0,False,False
-xr-router-01,"1 day, 19:28:03",True,GigabitEthernet0/0/0/1,False,False
-xr-router-01,"1 day, 19:28:03",True,Loopback0,False,False
-xr-router-01,"1 day, 19:28:03",True,MgmtEth0/RP0/CPU0/0,False,False
-xr-router-01,"1 day, 19:28:03",True,Null0,False,False
+xrd-1,"1 day, 11:20:16",True,GigabitEthernet0/0/0/0,False,False
+xrd-1,"1 day, 11:20:16",True,GigabitEthernet0/0/0/1,False,False
+xrd-1,"1 day, 11:20:16",True,Loopback0,False,False
+xrd-1,"1 day, 11:20:16",True,Loopback10,False,False
+xrd-1,"1 day, 11:20:16",True,MgmtEth0/RP0/CPU0/0,False,False
+xrd-1,"1 day, 11:20:16",True,Null0,False,False
