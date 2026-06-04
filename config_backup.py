@@ -1,4 +1,3 @@
-import schedule
 import time
 from netmiko import ConnectHandler
 from datetime import datetime
