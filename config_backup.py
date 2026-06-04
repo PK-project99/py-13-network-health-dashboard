@@ -6,7 +6,7 @@ import os
 from utility_functions import read_csv
 
 
-def backup_config(device_details):
+def fetch_backup_config(device_details):
 
     device={
         "device_type":device_details.get("netmiko_driver"),
@@ -20,9 +20,11 @@ def backup_config(device_details):
 
     try:
         connection=ConnectHandler(**device)
+        print("Connected!!!")
         full_configs=connection.send_command("show run all")
     except Exception as e:
         print(f"Error: {e}")
+        return
     finally:
         if connection:
             connection.disconnect()
@@ -39,10 +41,17 @@ def save_to_file(full_config, hostname):
         f.write(full_config)
     print(f"Configs saved in {filename}")
 
+def run_all_backups(devices_csv):
+    devices_list=read_csv(devices_csv)
+    for device in devices_list:
+        full_config=fetch_backup_config(device)
+        if full_config:
+            save_to_file(full_config, device.get("hostname"))
 
-for device in read_csv("devices.csv"):
-    print(device,"\n\n\n\n\n\n*******************")
-    fullconfig=(backup_config(device))
-    if fullconfig:
-        save_to_file(fullconfig, device.get("hostname"))
 
+
+if __name__ == "__main__":
+    
+    while True:
+        run_all_backups("devices.csv")
+        time.sleep(86400)
