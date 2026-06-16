@@ -3,6 +3,17 @@ from netmiko import ConnectHandler
 from datetime import datetime
 import os
 from utility_functions import read_csv
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("network_automation.log"),
+        logging.StreamHandler()
+    ]
+)
+
 
 
 def fetch_backup_config(device_details):
@@ -19,15 +30,15 @@ def fetch_backup_config(device_details):
 
     try:
         connection=ConnectHandler(**device)
-        print("Connected!!!")
+        logging.info("Connected")
         full_configs=connection.send_command("show run all")
     except Exception as e:
-        print(f"Error: {e}")
+        logging.error(f"Error connecting to {device_details.get("hostname")}: {e}")
         return
     finally:
         if connection:
             connection.disconnect()
-            print("Disconnected!!!")
+            logging.info("Disconnected")
 
 
     return full_configs
@@ -38,14 +49,27 @@ def save_to_file(full_config, hostname):
     filename=f"backups/{hostname}_{timestamp}.txt"
     with open(filename, "w") as f:
         f.write(full_config)
-    print(f"Configs saved in {filename}")
+    logging.info(f"Configs saved in {filename}")
 
 def run_all_backups(devices_csv):
     devices_list=read_csv(devices_csv)
+    success = 0
+    failed = 0
     for device in devices_list:
         full_config=fetch_backup_config(device)
         if full_config:
             save_to_file(full_config, device.get("hostname"))
+            success+=1
+        else:
+            logging.warning(f"Skipping {device.get("hostname")} - no config returned")
+            failed+=1
+
+    logging.info(f"Backup cycle complete- {success} succeeded, {failed} failed")
+    if success == 0 and failed > 0:
+        logging.error("All devices failed. Exiting")
+        exit(1)
+
+
 
 
 
